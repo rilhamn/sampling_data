@@ -1,57 +1,50 @@
 import streamlit as st
-import streamlit_authenticator as stauth
-from supabase import create_client
 import pandas as pd
+from supabase import create_client
+
+# ===============================
+# Supabase
+# ===============================
+
+SUPABASE_URL = st.secrets["SUPABASE_URL"]
+SUPABASE_KEY = st.secrets["SUPABASE_KEY"]
+
+supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 
 # ===============================
-# 🔐 AUTH
+# Location → table mapping
 # ===============================
 
-config = {
-    "credentials": {
-        "usernames": {
-            user: dict(st.secrets["credentials"]["usernames"][user])
-            for user in st.secrets["credentials"]["usernames"]
-        }
-    },
-    "cookie": dict(st.secrets["cookie"]),
+LOCATION_TABLE_MAP = {
+    "Well RD-I3": "sample_well_i3",
+    "Well RD-N1": "sample_well_n1",
+    "HP Separator": "sample_hp_separator",
+    "LP 2nd Flash Separator": "sample_lp_2nd_flash_separator"
+    "Well B1": "sample_well_b1"
 }
 
-authenticator = stauth.Authenticate(
-    config["credentials"],
-    config["cookie"]["name"],
-    config["cookie"]["key"],
-    config["cookie"]["expiry_days"],
+# ===============================
+# 📍 LOCATION SELECTOR (MAIN PAGE)
+# ===============================
+
+st.title("🧪 Sample Inputation")
+
+location = st.selectbox(
+    "📍 Select Location",
+    list(LOCATION_TABLE_MAP.keys())
 )
 
-# Only admin can manage employee
-if st.session_state.get("username") != "admin":
-    st.error("🚫 Admin only")
-    st.stop()
+TABLE = LOCATION_TABLE_MAP[location]
 
 
 # ===============================
-# 🌐 SUPABASE
+# ➕ ADD Sample
 # ===============================
 
-supabase = create_client(
-    st.secrets["supabase"]["url"],
-    st.secrets["supabase"]["key"]
-)
+with st.form("add_sample"):
 
-TABLE = "employee_master"
-
-
-# ===============================
-# ➕ ADD EMPLOYEE
-# ===============================
-
-st.title("👤 Employee Master")
-
-with st.form("add_employee"):
-
-    st.subheader("➕ Add employee")
+    st.subheader(f"➕ Add Sample – {location}")
 
     code_value = st.text_input("QR Code / Code Value")
     employee_name = st.text_input("Employee name")
@@ -80,14 +73,21 @@ with st.form("add_employee"):
 
 
 # ===============================
-# 📋 VIEW EMPLOYEES
+# 📋 VIEW Sample
 # ===============================
 
 st.divider()
-st.subheader("📋 Employee list")
+st.subheader(f"📋 Sample Data list – {location}")
 
 try:
-    res = supabase.table(TABLE).select("*").order("employee_name").execute()
+    res = (
+        supabase
+        .table(TABLE)
+        .select("*")
+        .order("employee_name")
+        .execute()
+    )
+
     df = pd.DataFrame(res.data)
 
     st.dataframe(df, use_container_width=True)
@@ -102,7 +102,7 @@ except Exception as e:
 # ===============================
 
 st.divider()
-st.subheader("🗑 Delete employee")
+st.subheader(f"🗑 Delete Sample Data – {location}")
 
 if not df.empty:
 
@@ -131,10 +131,3 @@ if not df.empty:
 
 else:
     st.info("No employee data yet.")
-
-
-# ===============================
-# 🚪 LOGOUT
-# ===============================
-
-authenticator.logout("Logout", "main")
