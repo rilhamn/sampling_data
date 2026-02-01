@@ -75,35 +75,55 @@ with st.form("add_sample"):
 
     date = st.date_input("Date")
     
-    st.markdown("### Upstream")
-    upstream_wellhead_pressure = st.text_input("Wellhead Pressure (Upstream)")
-    upstream_miniseparator_pressure = st.text_input("Mini Separator Pressure (Upstream)")
-    upstream_miniseparator_temperature = st.text_input("Mini Separator Temperature (Upstream)")
+    st.markdown("#### Upstream")
+    st.markdown("##### Operation Data")
+    upstream_wellhead_pressure = st.text_input("Wellhead Pressure")
+    upstream_miniseparator_pressure = st.text_input("Mini Separator Pressure")
+    upstream_miniseparator_temperature = st.text_input("Mini Separator Temperature")
+    st.markdown("##### chemistry Data")
+    upstream_ph = st.text_input("pH")
+    upstream_ec = st.text_input("EC")
+    upstream_temperature = st.text_input("Temperature")
 
-    st.markdown("### Downstream")
-    downstream_wellhead_pressure = st.text_input("Wellhead Pressure (Downstream)")
-    downstream_miniseparator_pressure = st.text_input("Mini Separator Pressure (Downstream)")
-    downstream_miniseparator_temperature = st.text_input("Mini Separator Temperature (Downstream)")
-
+    st.markdown("#### Downstream")
+    st.markdown("##### Operation Data")
+    downstream_wellhead_pressure = st.text_input("Wellhead Pressure")
+    downstream_miniseparator_pressure = st.text_input("Mini Separator Pressure")
+    downstream_miniseparator_temperature = st.text_input("Mini Separator Temperature")
+    st.markdown("##### chemistry Data")
+    downstream_ph = st.text_input("pH")
+    downstream_ec = st.text_input("EC")
+    downstream_temperature = st.text_input("Temperature")
+    
     submitted = st.form_submit_button("Save")
 
-    #if submitted:
-        #if not code_value:
-            #st.error("Code value is required")
-        #else:
-            #try:
-                #supabase.table(TABLE).insert({
-                    #"code_value": code_value.strip(),
-                    #"employee_name": employee_name,
-                    #"department": department,
-                    #"company": company
-                #}).execute()
+    if submitted:
+        if not date:
+            st.error("Date is required")
+        else:
+            try:
+                supabase.table(TABLE).upsert({
+                    "Date": date,
+                    "FCV": fcv,
+                    "wellhead_pressure": wellhead_pressure,
+                    "upstream_miniseparator_pressure":  upstream_miniseparator_pressure,
+                    "upstream_miniseparator_temperature": upstream_miniseparator_temperature,
+                    "upstream_ph": upstream_ph,
+                    "upstream_ec": upstream_ec,
+                    "upstream_temperature": upstream_temperature,
+                    "downstream_wellhead_pressure": downstream_wellhead_pressure,
+                    "downstream_miniseparator_pressure":  downstream_miniseparator_pressure,
+                    "downstream_miniseparator_temperature": downstream_miniseparator_temperature,
+                    "downstream_ph": downstream_ph,
+                    "downstream_ec": downstream_ec,
+                    "downstream_temperature": downstream_temperature,
+                }).execute()
 
-                #st.success("Employee added")
-                #st.rerun()
+                st.success("Employee added")
+                st.rerun()
 
-            #except Exception as e:
-                #st.error(e)
+            except Exception as e:
+                st.error(e)
 
 
 # ===============================
