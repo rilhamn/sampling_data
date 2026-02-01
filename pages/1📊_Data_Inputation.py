@@ -73,14 +73,13 @@ with st.form("add_sample"):
 
     st.subheader(f"➕ Add Sample – {location}")
 
-    date = st.text_input("QR Code / Code Value")
+    date = st.date_input("Date")
     
     st.markdown("Upstream")
     upstream_wellhead_pressure = st.text_input("Wellhead Pressure")
     upstream_miniseparator_pressure = st.text_input("Mini Separator Pressure")
     upstream_miniseparator_temperature = st.text_input("Mini Separator Temperature")
 
-    st.markdown("Downstream")
     downstream_wellhead_pressure = st.text_input("Wellhead Pressure")
     downstream_miniseparator_pressure = st.text_input("Mini Separator Pressure")
     downstream_miniseparator_temperature = st.text_input("Mini Separator Temperature")
