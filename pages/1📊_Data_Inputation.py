@@ -84,7 +84,7 @@ with st.form("add_sample"):
     downstream_miniseparator_pressure = st.text_input("Mini Separator Pressure")
     downstream_miniseparator_temperature = st.text_input("Mini Separator Temperature")
 
-    submitted = st.form_submit_button("Save")
+submitted = st.form_submit_button("Save")
 
     #if submitted:
         #if not code_value:
