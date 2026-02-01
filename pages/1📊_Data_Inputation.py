@@ -129,5 +129,5 @@ with st.form("add_sample"):
         #except Exception as e:
             #st.error(e)
 
-else:
-    st.info("No employee data yet.")
+#else:
+    #st.info("No employee data yet.")
