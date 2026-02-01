@@ -73,10 +73,17 @@ with st.form("add_sample"):
 
     st.subheader(f"➕ Add Sample – {location}")
 
-    code_value = st.text_input("QR Code / Code Value")
-    employee_name = st.text_input("Employee name")
-    department = st.text_input("Department")
-    company = st.text_input("Company")
+    date = st.text_input("QR Code / Code Value")
+    
+    st.markdown("Upstream")
+    upstream_wellhead_pressure = st.text_input("Wellhead Pressure")
+    upstream_miniseparator_pressure = st.text_input("Mini Separator Pressure")
+    upstream_miniseparator_temperature = st.text_input("Mini Separator Temperature")
+
+    st.markdown("Downstream")
+    downstream_wellhead_pressure = st.text_input("Wellhead Pressure")
+    downstream_miniseparator_pressure = st.text_input("Mini Separator Pressure")
+    downstream_miniseparator_temperature = st.text_input("Mini Separator Temperature")
 
     submitted = st.form_submit_button("Save")
 
@@ -103,25 +110,25 @@ with st.form("add_sample"):
 # 📋 VIEW Sample
 # ===============================
 
-#st.divider()
-#st.subheader(f"📋 Sample Data list – {location}")
+st.divider()
+st.subheader(f"📋 Sample Data list – {location}")
 
-#try:
-    #res = (
-        #supabase
-        #.table(TABLE)
-        #.select("*")
-        #.order("employee_name")
-        #.execute()
-    #)
+try:
+    res = (
+        supabase
+        .table(TABLE)
+        .select("*")
+        .order("employee_name")
+        .execute()
+    )
 
-    #df = pd.DataFrame(res.data)
+    df = pd.DataFrame(res.data)
 
-    #st.dataframe(df, use_container_width=True)
+    st.dataframe(df, use_container_width=True)
 
-#except Exception as e:
-    #st.error(e)
-    #df = pd.DataFrame()
+except Exception as e:
+    st.error(e)
+    df = pd.DataFrame()
 
 
 # ===============================
