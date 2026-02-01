@@ -74,26 +74,25 @@ with st.form("add_sample"):
     st.subheader(f"Add Sample - {location}")
 
     date = st.date_input("Date")
+    fcv = st.text_input("FCV Opening")
+    wellhead_pressure = st.text_input("Wellhead Pressure")
     
-    st.markdown("#### Upstream")
     st.markdown("##### Operation Data")
-    upstream_wellhead_pressure = st.text_input("Wellhead Pressure")
-    upstream_miniseparator_pressure = st.text_input("Mini Separator Pressure")
-    upstream_miniseparator_temperature = st.text_input("Mini Separator Temperature")
+    upstream_line_pressure = st.text_input("Line Pressure (Upstream)")
+    upstream_line_temperature = st.text_input("Line Temperature (Upstream)")
+    upstream_miniseparator_pressure = st.text_input("Mini Separator Pressure (Upstream)")
+    upstream_miniseparator_temperature = st.text_input("Mini Separator Temperature (Upstream)")
+    downstream_line_pressure = st.text_input("Line Pressure (Downstream)")
+    downstream_line_temperature = st.text_input("Line Temperature (Downstream)")
+    downstream_miniseparator_pressure = st.text_input("Mini Separator Pressure (Downstream)")
+    downstream_miniseparator_temperature = st.text_input("Mini Separator Temperature (Downstream)")
     st.markdown("##### chemistry Data")
-    upstream_ph = st.text_input("pH")
-    upstream_ec = st.text_input("EC")
-    upstream_temperature = st.text_input("Temperature")
-
-    st.markdown("#### Downstream")
-    st.markdown("##### Operation Data")
-    downstream_wellhead_pressure = st.text_input("Wellhead Pressure")
-    downstream_miniseparator_pressure = st.text_input("Mini Separator Pressure")
-    downstream_miniseparator_temperature = st.text_input("Mini Separator Temperature")
-    st.markdown("##### chemistry Data")
-    downstream_ph = st.text_input("pH")
-    downstream_ec = st.text_input("EC")
-    downstream_temperature = st.text_input("Temperature")
+    upstream_ph = st.text_input("pH (Upstream)")
+    upstream_ec = st.text_input("EC (Upstream)")
+    upstream_temperature = st.text_input("Temperature (Upstream)")
+    downstream_ph = st.text_input("pH (Downstream)")
+    downstream_ec = st.text_input("EC (Downstream)")
+    downstream_temperature = st.text_input("Temperature (Downstream)")
     
     submitted = st.form_submit_button("Save")
 
@@ -106,14 +105,17 @@ with st.form("add_sample"):
                     "Date": date,
                     "FCV": fcv,
                     "wellhead_pressure": wellhead_pressure,
+                    "upstream_line_pressure":  upstream_line_pressure,
+                    "upstream_line_temperature": upstream_line_temperature,
                     "upstream_miniseparator_pressure":  upstream_miniseparator_pressure,
                     "upstream_miniseparator_temperature": upstream_miniseparator_temperature,
+                    "downstream_line_pressure":  downstream_line_pressure,
+                    "downstream_line_temperature": downstream_line_temperature,
+                    "downstream_miniseparator_pressure":  downstream_miniseparator_pressure,
+                    "downstream_miniseparator_temperature": downstream_miniseparator_temperature,
                     "upstream_ph": upstream_ph,
                     "upstream_ec": upstream_ec,
                     "upstream_temperature": upstream_temperature,
-                    "downstream_wellhead_pressure": downstream_wellhead_pressure,
-                    "downstream_miniseparator_pressure":  downstream_miniseparator_pressure,
-                    "downstream_miniseparator_temperature": downstream_miniseparator_temperature,
                     "downstream_ph": downstream_ph,
                     "downstream_ec": downstream_ec,
                     "downstream_temperature": downstream_temperature,
